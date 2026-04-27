@@ -8,14 +8,50 @@ struct data_mobil{
     long no_stnk;
     string jenis_mobil;
     string warna_mobil;
-} data[10];
+} dataMobil[10];
 
 void input_data(int menu){
 
+int jumlah_data;
+ cout << "INPUT DATA" << endl;
+        cout << "=============================" << endl;
+        cout << "Jumlah data (maks 10) : ";
+         cin >> jumlah_data;
+
+        if (jumlah_data > 10) {
+        cout << "Jumlah data lebih dari 10!";
+        } 
+
+    for (int i = 0; i < jumlah_data; i++) {
+        cout << "Data ke-" << i + 1 << endl;
+        cout << "No. STNK : ";
+          cin >> dataMobil[i].no_stnk;
+          cin.ignore();
+        cout << "Jenis Mobil : ";
+         getline(cin, dataMobil[i].jenis_mobil);
+        cout << "Warna Mobil : ";
+         getline(cin, dataMobil[i].warna_mobil);
+        
+         cout << endl;
+    }
+    
 }
 
 void tampil_data(int menu){
-
+int jumlah_data;
+    
+    if (jumlah_data == 0) {
+        cout << "Data masih kosong!\n" << endl;
+    } else {
+        cout << "DATA MOBIL" << endl;
+        cout << setfill('=') << setw (58) << " " << endl;
+        cout << left << setw(5) << "No. "
+             << setw (15) << "No. STNK"
+             << setw (20) << "Jenis Mobil"
+             << setw (15) << "Warna Mobil" << endl;
+        cout << setfill('=') << setw (58) << " " << endl;
+        cout << endl;
+    }
 }
 
 void searching(int menu){
