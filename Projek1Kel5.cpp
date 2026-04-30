@@ -14,7 +14,7 @@ struct data_mobil{
 } dataMobil[10];
 
 void input_data(){
-	cout << "INPUT DATA" << endl;
+	cout << "\nINPUT DATA" << endl;
     cout << "=============================" << endl;
     cout << "Jumlah data (maks 10) : ";
     cin >> jumlah_data;
@@ -38,10 +38,12 @@ void input_data(){
 }
 
 void tampil_data(int jumlah_data){
+    char balik_menu;
+    
     if (jumlah_data == 0) {
-        cout << "Data masih kosong!\n" << endl;
-    }
-        cout << "DATA MOBIL" << endl;
+        cout << "\nData masih kosong!\n" << endl;
+    } else {
+        cout << "\nDATA MOBIL" << endl;
         cout << setfill('=') << setw (58) << "=" << endl;
         cout << setfill(' ');
         cout << left << setw(5) << "No"
@@ -51,18 +53,17 @@ void tampil_data(int jumlah_data){
         cout << setfill('=') << setw (58) << "=" << endl;
         cout << setfill(' ');
     
-	for(int i = 0;i < jumlah_data; i++){
-		cout << left << setw(5) << i
+    	for(int i = 0;i < jumlah_data; i++){
+		cout << left << setw(5) << i + 1
 			 << setw(15) << dataMobil[i].no_stnk
 			 << setw(20) << dataMobil[i].jenis_mobil
 			 << setw(15) << dataMobil[i].warna_mobil << endl;
+    	}
     }
 }
 
 void bubble_sort(){
-	cout << "\nData sebelum disorting\n";
-	tampil_data(jumlah_data);
-
+   
 	for(int i = 0; i < jumlah_data - 1; i++){
 		for(int j = 0; j < jumlah_data - i - 1; j++){
 			if(dataMobil[j].no_stnk > dataMobil[j+1].no_stnk){
@@ -70,14 +71,9 @@ void bubble_sort(){
 			}
 		}
 	}
-	
-	cout << "\nData urut by NO. STNK dengan BUBBLE SORT\n";
-	tampil_data(jumlah_data);
 }
 
 void selection_sort(){
-	cout << "\nData sebelum disorting\n";
-	tampil_data(jumlah_data);
 
 	for(int i = 0; i < jumlah_data - 1; i++) {
 		int k = i;
@@ -89,14 +85,9 @@ void selection_sort(){
 		swap(dataMobil[i], dataMobil[k]);
 		cout << "\n";
 	}
-
-	cout << "\nData urut JENIS MOBIL dengan SELECTION SORT\n";
-	tampil_data(jumlah_data);
 }
 
 void insertion_sort(){
-	cout << "\nData sebelum disorting\n";
-	tampil_data(jumlah_data);
 
 	for (int i = 1; i < jumlah_data; i++){
 		data_mobil temp = dataMobil[i]; 
@@ -107,14 +98,9 @@ void insertion_sort(){
 		}
 		dataMobil[j + 1] = temp;
    	}
-
-	cout << "\nData urut by WARNA MOBIL dengan INSERTION SORT\n";
-	tampil_data(jumlah_data);
 }
 
 void shell_sort(){
-	cout << "\nData sebelum disorting\n";
-	tampil_data(jumlah_data);
 
 	for (int jarak = jumlah_data / 2; jarak > 0; jarak = jarak / 2) {
 		for (int i = jarak; i < jumlah_data; i++) {
@@ -125,9 +111,6 @@ void shell_sort(){
 			}
 		}
 	}
-
-	cout << "\nData urut by NO. STNK dengan SHELL SORT\n";
-	tampil_data(jumlah_data);
 }
 
 int bagi(int awal, int akhir){
@@ -153,13 +136,8 @@ void quick(int awal, int akhir){
 }
 
 void quick_sort(){
-	cout << "\nData sebelum disorting\n";
-	tampil_data(jumlah_data);
 	
     quick(0, jumlah_data-1);
-
-	cout << "\nData urut by JENIS MOBIL dengan QUUICK SORT\n";
-	tampil_data(jumlah_data);
 }
 		
 void merge(int kiri, int tengah, int kanan){
@@ -210,20 +188,29 @@ void merge2(int awal, int akhir){
 }
 
 void merge_sort(){
-	cout << "\nData sebelum disorting\n";
-	tampil_data(jumlah_data);	
+	
 	merge2(0, jumlah_data - 1);	
-	cout << "\nData urut by WARNA MOBIL dengan MERGE SORT\n";
-	tampil_data(jumlah_data);
 }
 
 void sorting(){
 	int pilihsort;
 	char ulangsort, kembali;
 	
+	if(jumlah_data == 0){
+        cout<<"Data belum diinput!\n";
+        cout<<"\nKembali ke menu utama? (y/t) : ";
+        cin>>kembali;
+        if(kembali == 'y'){
+            poin = 1;
+        } else {
+            poin = 0;
+        }
+        return;
+    }
+	
 	do{ 
-		cout << "MENU SORTING : \n";
-		cout << setfill('=') << setw(25) << "=" << endl;
+		cout << "\nMENU SORTING : \n";
+			cout<<setfill('=')<<setw(27)<<"="<<endl;
 		cout << "1. BUBBLE SORT\n";
 		cout << "2. SELECTION SORT\n";
 		cout << "3. INSERTION SORT\n";
@@ -231,7 +218,7 @@ void sorting(){
 		cout << "5. QUICK SORT\n";
 		cout << "6. MERGE SORT\n";
 		cout << "7. Kembali ke MENU UTAMA\n";
-		cout << setfill('=') << setw(25) << "=";
+		cout<<setfill('=')<<setw(27)<<"="<<endl;
 		
 		cout << "\nPilih : ";
 		cin >> pilihsort;
@@ -240,22 +227,46 @@ void sorting(){
 			
 		switch(pilihsort) {
 			case 1 :
+			    cout << "\nData sebelum disorting\n";
+	        	tampil_data(jumlah_data);
 				bubble_sort();
+				cout << "\nData urut by NO. STNK dengan BUBBLE SORT\n";
+            	tampil_data(jumlah_data);
 				break;
 			case 2 :
+		    	cout << "\nData sebelum disorting\n";
+            	tampil_data(jumlah_data);
 				selection_sort();
+				cout << "\nData urut JENIS MOBIL dengan SELECTION SORT\n";
+	            tampil_data(jumlah_data);
 				break;
 			case 3 :
+			    cout << "\nData sebelum disorting\n";
+            	tampil_data(jumlah_data);
 				insertion_sort();
+				cout << "\nData urut by WARNA MOBIL dengan INSERTION SORT\n";
+            	tampil_data(jumlah_data);
 				break;
 			case 4 :
+			    cout << "\nData sebelum disorting\n";
+            	tampil_data(jumlah_data);
 				shell_sort();
+				cout << "\nData urut by NO. STNK dengan SHELL SORT\n";
+            	tampil_data(jumlah_data);
 				break;
 			case 5 :
+			    cout << "\nData sebelum disorting\n";
+            	tampil_data(jumlah_data);
 				quick_sort();
+				cout << "\nData urut by JENIS MOBIL dengan QUUICK SORT\n";
+            	tampil_data(jumlah_data);
 				break;
 			case 6 :
+			    cout << "\nData sebelum disorting\n";
+            	tampil_data(jumlah_data);
 				merge_sort();
+				cout << "\nData urut by WARNA MOBIL dengan MERGE SORT\n";
+            	tampil_data(jumlah_data);
 				break;
 			case 7 :
 				return;
@@ -422,6 +433,7 @@ int main(){
         cout<<setfill('=')<<setw(27)<<"="<<endl;
 		cout << "Pilih menu : ";
 		cin >> menu_utama;
+		cout<<setfill('=')<<setw(27)<<"="<<endl;
 		
 		system("cls");
 		
@@ -429,9 +441,27 @@ int main(){
             case 1:
                 input_data();
                 system("cls");
+                 cout<<"Kembali ke menu utama? (y/t) : ";
+                cin>>kembali;
+                if(kembali == 'y'){
+                    poin = 1;
+                } else {
+                    cout<<"Keluar dari program...\n\n";
+                    system("pause");
+                    return 0;
+                }
             break;
             case 2:
                 tampil_data(jumlah_data);
+                cout<<"\nKembali ke menu utama? (y/t) : ";
+                cin>>kembali;
+                if(kembali == 'y'){
+                    poin = 1;
+                } else {
+                    cout<<"Keluar dari program...\n\n";
+                    system("pause");
+                    return 0;
+                }
             break;
             case 3:
                 searching();
