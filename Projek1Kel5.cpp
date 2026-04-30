@@ -38,7 +38,6 @@ void input_data(){
 }
 
 void tampil_data(int jumlah_data){
-    char balik_menu;
     
     if (jumlah_data == 0) {
         cout << "\nData masih kosong!\n" << endl;
