@@ -20,8 +20,13 @@ void input_data(){
     cin >> jumlah_data;
 
     if (jumlah_data > 10) {
-        cout << "Jumlah data lebih dari 10!";
-    } 
+        cout << "\nJumlah data lebih dari 10!\n";
+        system("pause");
+        return;
+    } else if(jumlah_data <= 0){
+		cout << "\nJumlah data terlalu sedikit.\n";
+		system("pause");
+	}
 
     for (int i = 0; i < jumlah_data; i++) {
         cout << "Data ke-" << i + 1 << endl;
@@ -38,8 +43,7 @@ void input_data(){
 }
 
 void tampil_data(int jumlah_data){
-    
-    if (jumlah_data == 0) {
+    if (jumlah_data <= 0 || jumlah_data > 10) {
         cout << "\nData masih kosong!\n" << endl;
     } else {
         cout << "\nDATA MOBIL" << endl;
@@ -62,7 +66,6 @@ void tampil_data(int jumlah_data){
 }
 
 void bubble_sort(){
-   
 	for(int i = 0; i < jumlah_data - 1; i++){
 		for(int j = 0; j < jumlah_data - i - 1; j++){
 			if(dataMobil[j].no_stnk > dataMobil[j+1].no_stnk){
@@ -73,7 +76,6 @@ void bubble_sort(){
 }
 
 void selection_sort(){
-
 	for(int i = 0; i < jumlah_data - 1; i++) {
 		int k = i;
 		for(int j = i + 1; j < jumlah_data; j++) {
@@ -87,7 +89,6 @@ void selection_sort(){
 }
 
 void insertion_sort(){
-
 	for (int i = 1; i < jumlah_data; i++){
 		data_mobil temp = dataMobil[i]; 
 		int j = i - 1;
@@ -100,7 +101,6 @@ void insertion_sort(){
 }
 
 void shell_sort(){
-
 	for (int jarak = jumlah_data / 2; jarak > 0; jarak = jarak / 2) {
 		for (int i = jarak; i < jumlah_data; i++) {
 			for (int j = i - jarak; j >= 0; j = j - jarak) {
@@ -135,12 +135,10 @@ void quick(int awal, int akhir){
 }
 
 void quick_sort(){
-	
     quick(0, jumlah_data-1);
 }
 		
 void merge(int kiri, int tengah, int kanan){
-	
 	int a1 = tengah - kiri + 1;
 	int a2 = kanan - tengah;
 		data_mobil kiriArray[10];
@@ -187,7 +185,6 @@ void merge2(int awal, int akhir){
 }
 
 void merge_sort(){
-	
 	merge2(0, jumlah_data - 1);	
 }
 
@@ -195,8 +192,8 @@ void sorting(){
 	int pilihsort;
 	char ulangsort, kembali;
 	
-	if(jumlah_data == 0){
-        cout<<"Data belum diinput!\n";
+	if(jumlah_data <= 0 || jumlah_data > 10){
+        cout<<"Data masih kosong!\n";
         cout<<"\nKembali ke menu utama? (y/t) : ";
         cin>>kembali;
         if(kembali == 'y'){
@@ -351,8 +348,8 @@ void searching(){
 	int menu_search;
     char balik, balik_menu;
 
-    if(jumlah_data == 0){
-        cout<<"Data belum diinput!\n";
+    if(jumlah_data == 0 || jumlah_data > 10){
+        cout<<"Data masih kosong!\n";
         cout<<"\nKembali ke menu utama? (y/t) : ";
         cin>>balik_menu;
         if(balik_menu == 'y'){
@@ -383,9 +380,6 @@ void searching(){
             break;
             case 2 :
 				bubble_sort();
-				//cout<<"\n===tekan enter untuk lanjut ke laman pencarian==\n";
-                //system("pause");
-                //system("cls");
                 binary();
             break;
             case 3 :
@@ -440,10 +434,11 @@ int main(){
             case 1:
                 input_data();
                 system("cls");
-                 cout<<"Kembali ke menu utama? (y/t) : ";
+                cout<<"Kembali ke menu utama? (y/t) : ";
                 cin>>kembali;
                 if(kembali == 'y'){
                     poin = 1;
+                    system("cls");
                 } else {
                     cout<<"Keluar dari program...\n\n";
                     system("pause");
@@ -456,6 +451,7 @@ int main(){
                 cin>>kembali;
                 if(kembali == 'y'){
                     poin = 1;
+                    system("cls");
                 } else {
                     cout<<"Keluar dari program...\n\n";
                     system("pause");
