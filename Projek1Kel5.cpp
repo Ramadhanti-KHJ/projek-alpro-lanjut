@@ -13,7 +13,7 @@ using namespace std;
 FILE *ptr;
 char namefile[20];
 string namafile, filecari;
-int jumlah_data = 0, urut;
+int jumlah_data, urut;
 long cari_stnk;
 
 struct data_mobil{
@@ -97,7 +97,26 @@ void input_data(){
 	}
 }
 
-void tampil_data(int jumlah_data){
+void cetak_tabel(){
+    cout << setfill('=') << setw(61) << "=" << endl;
+    cout << setfill(' ');
+    cout << left
+         << setw(6)  << "No."
+         << setw(15) << "No. STNK"
+         << setw(20) << "Jenis Mobil"
+         << setw(20) << "Warna Mobil" << endl;
+    cout << setfill('=') << setw(61) << "=" << endl;
+    cout << setfill(' ');
+    for(int i = 0; i < jumlah_data; i++){
+        cout << left
+             << setw(6)  << i + 1
+             << setw(15) << dataMobil[i].no_stnk
+             << setw(20) << dataMobil[i].jenis_mobil
+             << setw(20) << dataMobil[i].warna_mobil << endl;
+    }
+}
+
+void tampil_data(int){
     string baris;
 
     cout << "\tTAMPIL DATA\n";
@@ -106,7 +125,8 @@ void tampil_data(int jumlah_data){
     tampil_file();
     
     cout << "Nama file yang akan ditampilkan : ";
-    cin >> namefile;
+    string namaFileTampil;
+    cin >> namaFileTampil;
     cin.ignore();
     
     system("pause");
@@ -117,6 +137,7 @@ void tampil_data(int jumlah_data){
 		cout << "\nFile tidak ditemukan atau gagal dibuka!\n";
 		return;
 	}
+	jumlah_data = 0;
 	
 	while(getline(file, baris) && jumlah_data < 10){
 			int pisah1 = baris.find('|');
@@ -133,23 +154,8 @@ void tampil_data(int jumlah_data){
     }
 
     cout << "\nDATA MOBIL\n";
-    cout << setfill('=') << setw(61) << "=" << endl;
-    cout << setfill(' ');
-    cout << left
-		 << setw(6)  << "No."
-		 << setw(15) << "No. STNK"
-		 << setw(20) << "Jenis Mobil"
-		 << setw(20) << "Warna Mobil" << endl;
-	cout << setfill('=') << setw(61) << "=" << endl;
-	cout << setfill(' ');
-
-    for(int i = 0; i < jumlah_data; i++){
-        cout << left
-             << setw(6)  << i + 1
-             << setw(15) << dataMobil[i].no_stnk
-             << setw(20) << dataMobil[i].jenis_mobil
-             << setw(20) << dataMobil[i].warna_mobil << endl;
-    }
+    cetak_tabel();
+	
 }
 
 bool kondisi(data_mobil a, data_mobil b, int urut) {
@@ -182,7 +188,6 @@ void selection_sort(){
 			}
 		}
 		swap(dataMobil[i], dataMobil[k]);
-		cout << "\n";
 	}
 }
 
@@ -257,8 +262,8 @@ void merge(int kiri, int tengah, int kanan){
 		} else {
            dataMobil[k] = kananArray[j];
            j++;
-           k++;
 		}
+		 k++;
 	}
     
 	while (i < a1) {
@@ -269,8 +274,8 @@ void merge(int kiri, int tengah, int kanan){
 	while (j < a2) {
 		dataMobil[k] = kananArray[j];
 		j++;
+		k++;
 	}
-    k++;
 }
 
 void merge2(int awal, int akhir){
@@ -290,99 +295,121 @@ void sorting(){
 	int pilihsort;
 	char ulangsort, kembali;
 	
-	do{ 
-		cout << "\nMENU SORTING : \n";
-		cout<<setfill('=')<<setw(27)<<"="<<endl;
-		cout << "1. BUBBLE SORT\n";
-		cout << "2. SELECTION SORT\n";
-		cout << "3. INSERTION SORT\n";
-		cout << "4. SHELL SORT\n";
-		cout << "5. QUICK SORT\n";
-		cout << "6. MERGE SORT\n";
-		cout << "7. Kembali ke MENU UTAMA\n";
-		cout<<setfill('=')<<setw(27)<<"="<<endl;
-		
-		cout << "\nPilih : ";
-		cin >> pilihsort;
+	do{
+		do{ 
+			cout << "\nMENU SORTING : \n";
+			cout<<setfill('=')<<setw(27)<<"="<<endl;
+			cout << "1. BUBBLE SORT\n";
+			cout << "2. SELECTION SORT\n";
+			cout << "3. INSERTION SORT\n";
+			cout << "4. SHELL SORT\n";
+			cout << "5. QUICK SORT\n";
+			cout << "6. MERGE SORT\n";
+			cout << "7. Kembali ke MENU UTAMA\n";
+			cout<<setfill('=')<<setw(27)<<"="<<endl;
+			cout << "\nPilih : ";
+			cin >> pilihsort;
+			system("cls");
 			
-		system("cls");
-		
+				if(pilihsort < 1 || pilihsort > 7){
+					cout << "Pilihan tidak valid!\n";
+					system("pause");
+					system("cls");
+				}
+			} while(pilihsort < 1 || pilihsort > 7);
+			
 		tampil_file();
         cout << "\n\nData yang disorting dari file : ";
-        //cin
-        //cin.ignore
-
+        string fileSort;
+        cin >> fileSort;
+        cin.ignore();
+        
+        jumlah_data = 0;
+        string baris;
+        ifstream fileSortIn(fileSort);
+        if(!fileSortIn.is_open()){
+            cout << "File tidak ditemukan!\n";
+            system("pause");
+        }
+        
+        while(getline(fileSortIn, baris) && jumlah_data < 10){
+            int pisah1 = baris.find('|');
+            int pisah2 = baris.find('|', pisah1 + 1);
+            dataMobil[jumlah_data].no_stnk = stol(baris.substr(0, pisah1));
+            strncpy(dataMobil[jumlah_data].jenis_mobil, baris.substr(pisah1+1, pisah2-pisah1-1).c_str(), 49);
+            strncpy(dataMobil[jumlah_data].warna_mobil, baris.substr(pisah2+1).c_str(), 49);
+            jumlah_data++;
+        }
+        fileSortIn.close();
+        
+        if(jumlah_data == 0){
+            cout << "File kosong.\n";
+            system("pause");
+		}
+        
         do{
             cout << "\n Pengurutan berdasarkan: \n";
             cout<<setfill('=')<<setw(27)<<"="<<endl;
 		    cout << "1. No. STNK\n";
 		    cout << "2. Jenis Mobil\n";
 		    cout << "3. Warna Mobil\n";
-
+			cout << setfill('=') << setw(27) << "=" << endl;
             cout << "Pilih: ";
             cin >> urut;
         } while(urut < 1 || urut > 3);
-			
+
+		system("cls");
+
+		cout << "\nData sebelum disorting\n";
+		cetak_tabel();
 
 		switch(pilihsort) {
 			case 1 :
-			    cout << "\nData sebelum disorting\n";
-	        	tampil_data(jumlah_data);
 				bubble_sort();
-				cout << "\nData urut by NO. STNK dengan BUBBLE SORT\n";
-            	tampil_data(jumlah_data);
-				break;
+				cout << "\nData urut dengan BUBBLE SORT\n";
+			break;
 			case 2 :
-		    	cout << "\nData sebelum disorting\n";
-            	tampil_data(jumlah_data);
 				selection_sort();
-				cout << "\nData urut JENIS MOBIL dengan SELECTION SORT\n";
-	            tampil_data(jumlah_data);
-				break;
+				cout << "\nData urut dengan SELECTION SORT\n";
+			break;
 			case 3 :
-			    cout << "\nData sebelum disorting\n";
-            	tampil_data(jumlah_data);
 				insertion_sort();
-				cout << "\nData urut by WARNA MOBIL dengan INSERTION SORT\n";
-            	tampil_data(jumlah_data);
-				break;
+				cout << "\nData urut dengan INSERTION SORT\n";
+			break;
 			case 4 :
-			    cout << "\nData sebelum disorting\n";
-            	tampil_data(jumlah_data);
 				shell_sort();
-				cout << "\nData urut by NO. STNK dengan SHELL SORT\n";
-            	tampil_data(jumlah_data);
-				break;
+				cout << "\nData urut dengan SHELL SORT\n";
+			break;
 			case 5 :
-			    cout << "\nData sebelum disorting\n";
-            	tampil_data(jumlah_data);
 				quick_sort();
-				cout << "\nData urut by JENIS MOBIL dengan QUUICK SORT\n";
-            	tampil_data(jumlah_data);
-				break;
+				cout << "\nData urut dengan QUICK SORT\n";
+			break;
 			case 6 :
-			    cout << "\nData sebelum disorting\n";
-            	tampil_data(jumlah_data);
 				merge_sort();
-				cout << "\nData urut by WARNA MOBIL dengan MERGE SORT\n";
-            	tampil_data(jumlah_data);
-				break;
+				cout << "\nData urut dengan MERGE SORT\n";
+			break;
 			case 7 :
 				return;
-				break;
+			break;
+			default :
+				cout<<"Invalid menu!";
+			break;
 		}
+		
+		cetak_tabel();
+		
 		cout << "\nUlangi sorting? (y/t) : ";
 			cin >> ulangsort;
 			
-			system("cls");
+		system("cls");
 		
 		if(ulangsort == 't'){
 			cout << "\nKembali ke menu utama? (y/t) : ";
 			cin >> kembali;
 			if(kembali == 'y'){
 				return;;
-			}else{
-                cout<<"Keluar dari program...\n\n";
+			} else { 
+                cout << "Keluar dari program...\n\n";
                 system("pause");
                 exit(0);
             }
@@ -425,27 +452,27 @@ void sequensial(){
 		
         cout<<"\nMasukkan No. STNK yang dicari : ";
         cin>>cari_stnk;
-        while((i<10) && (!found)){
+        
+        while((i<jumlah_data) && (!found)){
             if(dataMobil[i].no_stnk == cari_stnk){
                 found=true;
-            }
-            else{
-                i=i+1;
+            } else {
+                i++;
             }
         }
         if(found){
-            cout<<"Data ditemukan:\n";
-            cout<<setfill('=')<<setw(27)<<"="<<endl;
-            cout<<"No.STNK\t\t: "<<dataMobil[i].no_stnk<<endl;
-            cout<<"Jenis Mobil\t: "<<dataMobil[i].jenis_mobil<<endl;
-            cout<<"Warna Mobil\t: "<<dataMobil[i].warna_mobil<<endl;
-            cout<<setfill('=')<<setw(27)<<"="<<endl;
-        } else{
-            cout<<"Mobil dengan No.STNK "<<cari_stnk<<" tidak ditemukan.\n";
+            cout << "Data ditemukan:\n";
+            cout << setfill('=') << setw(27) << "=" << endl;
+            cout << "No.STNK\t\t: " << dataMobil[i].no_stnk << endl;
+            cout << "Jenis Mobil\t: " << dataMobil[i].jenis_mobil << endl;
+            cout << "Warna Mobil\t: " << dataMobil[i].warna_mobil << endl;
+            cout << setfill('=') << setw(27) << "=" << endl;
+        } else {
+            cout << "Mobil dengan No.STNK " << cari_stnk << " tidak ditemukan.\n";
         }
         cari.close();
     } else{
-        cout<<"Gagal membuka file!"<<endl;
+        cout << "Gagal membuka file!" << endl;
         system("pause");
         return;
     }
@@ -695,7 +722,7 @@ int main(){
 		switch(menu_utama){
             case 1:
                 input_data();
-                system("cls");
+                cout<<setfill('=')<<setw(27)<<"="<<endl;
                 cout<<"Kembali ke menu utama? (y/t) : ";
                 cin>>kembali;
                 if(kembali == 'y'){
