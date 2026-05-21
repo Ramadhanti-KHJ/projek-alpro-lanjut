@@ -12,11 +12,11 @@ using namespace std;
 
 FILE *ptr;
 char namefile[20];
-string namafile, filecari;
+string filemerge, filecari;
 int jumlah_data, urut;
 long cari_stnk;
 
-struct data_mobil{
+struct identitas_mobil{
     long no_stnk;
     char jenis_mobil[50];
     char warna_mobil[50];
@@ -158,7 +158,7 @@ void tampil_data(int){
 	
 }
 
-bool kondisi(data_mobil a, data_mobil b, int urut) {
+bool kondisi(identitas_mobil a, identitas_mobil b, int urut) {
     if(urut == 1) { 
         return a.no_stnk > b.no_stnk;
     } else if(urut == 2) {
@@ -193,7 +193,7 @@ void selection_sort(){
 
 void insertion_sort(){
 	for (int i = 1; i < jumlah_data; i++){
-		data_mobil temp = dataMobil[i]; 
+		identitas_mobil temp = dataMobil[i]; 
 		int j = i - 1;
 		while (j >= 0 && kondisi(dataMobil[j], temp, urut)){
 			dataMobil[j + 1] = dataMobil[j];
@@ -244,8 +244,8 @@ void quick_sort(){
 void merge(int kiri, int tengah, int kanan){
 	int a1 = tengah - kiri + 1;
 	int a2 = kanan - tengah;
-		data_mobil kiriArray[10];
-		data_mobil kananArray[10];
+		identitas_mobil kiriArray[10];
+		identitas_mobil kananArray[10];
   
 	for (int i = 0; i < a1; i++)
 		kiriArray[i] = dataMobil[kiri + i];
@@ -617,7 +617,7 @@ void merging_urut(){
         cin>>filename[i];
     }
     cout << "Disimpan di file bernama (tanpa spasi) : ";
-    cin >> namafile;
+    cin >> filemerge;
     
     for(int i=0; i < banyak_file; i++){
         ifstream file(filename[i]);
@@ -644,7 +644,7 @@ void merging_urut(){
     
     bub_sort_searchmerge(n);
     
-    ofstream filehasil(namafile);
+    ofstream filehasil(filemerge);
     if(!filehasil.is_open()){
         cout<<"Gagal membuka file!"<<endl;
         system("pause");
@@ -667,7 +667,7 @@ void merging_urut(){
     cout << setfill('=') << setw (58) << "=" << endl;
     cout << setfill(' ');
 
-    ifstream filehasil_in(namafile);
+    ifstream filehasil_in(filemerge);
     if(!filehasil_in.is_open()){
         cout<<"Gagal membuka file!"<<endl;
         system("pause");
