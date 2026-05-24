@@ -132,7 +132,7 @@ void tampil_data(int){
     system("pause");
     system("cls");
     
-    ifstream file(namefile);
+    ifstream file(namaFileTampil);
 	if(!file.is_open()){
 		cout << "\nFile tidak ditemukan atau gagal dibuka!\n";
 		return;
@@ -293,7 +293,7 @@ void merge_sort(){
 
 void sorting(){
 	int pilihsort;
-	char ulangsort, kembali;
+	char ulangsort, kembali, simpan_sort;
 	
 	do{
 		do{ 
@@ -397,6 +397,29 @@ void sorting(){
 		}
 		
 		cetak_tabel();
+		
+		cout << "\nIngin disimpan hasil sorting ke file (y/t): ";
+		cin >> simpan_sort;
+		
+		if(simpan_sort == 'y') {
+			char namafile_sort[20];
+            cout << "Disimpan di file bernama (tanpa spasi) : ";
+            cin >> namafile_sort;
+            
+            ptr = fopen(namafile_sort, "w");
+            if(ptr == NULL) {
+                cout << "\nError\n";
+            } else {
+                for(int i = 0; i < jumlah_data; i++) {
+                    fprintf(ptr, "%ld|%s|%s\n",
+                        dataMobil[i].no_stnk,
+                        dataMobil[i].jenis_mobil,
+                        dataMobil[i].warna_mobil);
+                }
+			}
+		  fclose(ptr);
+		  cout << "\nBerhasil disimpan ke " << namafile_sort << "!\n";
+		}
 		
 		cout << "\nUlangi sorting? (y/t) : ";
 			cin >> ulangsort;
